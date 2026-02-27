@@ -29,7 +29,9 @@ class LogTracesServiceProvider extends PackageServiceProvider
         $this->initTracing();
     }
 
-    public function packageBooted() {}
+    public function packageBooted()
+    {
+    }
 
     private function initTracing(): void
     {

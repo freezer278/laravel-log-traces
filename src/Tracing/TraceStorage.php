@@ -21,6 +21,7 @@ class TraceStorage
     public function startNewTrace(): string
     {
         $this->setTraceId($this->randomIdGenerator->generateTraceId());
+
         return $this->getTraceId();
     }
 
@@ -38,6 +39,7 @@ class TraceStorage
     public function startNewSpan(): string
     {
         $this->setSpanId($this->randomIdGenerator->generateSpanId());
+
         return $this->getSpanId();
     }
 
