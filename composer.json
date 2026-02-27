@@ -1,0 +1,60 @@
+{
+    "name": "vmorozov/laravel-log-traces",
+    "description": "Prometheus client for laravel framework. Includes some of default metrics for any laravel application out of the box and ability to add custom metrics easily. .",
+    "type": "library",
+    "keywords": [
+        "vmorozov",
+        "laravel-log-traces"
+    ],
+    "homepage": "https://github.com/vmorozov/laravel-log-traces",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Morozov",
+            "email": "freezer278@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/contracts": ">=9.0",
+        "promphp/prometheus_client_php": "^2.7",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^v9.5.2",
+        "phpunit/phpunit": "^11.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "VMorozov\\LaravelLogTraces\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VMorozov\\LaravelLogTraces\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+            "test-coverage": "vendor/bin/phpunit --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VMorozov\\LaravelLogTraces\\LogTracesServiceProvider"
+            ]
+        }
+    }
+}
