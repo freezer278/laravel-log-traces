@@ -1,6 +1,6 @@
 {
     "name": "vmorozov/laravel-log-traces",
-    "description": "Prometheus client for laravel framework. Includes some of default metrics for any laravel application out of the box and ability to add custom metrics easily. .",
+    "description": "Library for providing trace ids in logs.",
     "type": "library",
     "keywords": [
         "vmorozov",
@@ -38,13 +38,12 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-            "test-coverage": "vendor/bin/phpunit --coverage",
+        "test-coverage": "vendor/bin/phpunit --coverage",
         "format": "vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-
             "phpstan/extension-installer": true
         }
     },

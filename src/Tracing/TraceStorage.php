@@ -2,6 +2,8 @@
 
 namespace Vmorozov\LaravelLogTraces\Tracing;
 
+use Illuminate\Support\Facades\Context;
+
 class TraceStorage
 {
     private RandomIdGenerator $randomIdGenerator;
@@ -30,6 +32,7 @@ class TraceStorage
     public function setTraceId(string $traceId): void
     {
         $this->traceId = $traceId;
+        Context::add('trace_id', $this->traceId);
     }
 
     public function startNewSpan(): string
@@ -46,5 +49,6 @@ class TraceStorage
     public function setSpanId(string $spanId): void
     {
         $this->spanId = $spanId;
+        Context::add('span_id', $this->spanId);
     }
 }
