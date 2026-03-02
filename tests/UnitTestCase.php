@@ -1,10 +1,11 @@
 <?php
 
-namespace VMorozov\Prometheus\Tests\Unit;
+namespace VMorozov\LaravelLogTraces\Tests;
 
 use Mockery;
+use Orchestra\Testbench\TestCase;
 
-class UnitTestCase extends \Orchestra\Testbench\TestCase
+class UnitTestCase extends TestCase
 {
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 

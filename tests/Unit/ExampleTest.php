@@ -2,7 +2,7 @@
 
 namespace Unit;
 
-use VMorozov\Prometheus\Tests\Unit\UnitTestCase;
+use VMorozov\LaravelLogTraces\Tests\UnitTestCase;
 
 class ExampleTest extends UnitTestCase
 {
