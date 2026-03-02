@@ -1,4 +1,4 @@
-# Prometheus client for laravel framework
+# Logs tracing for laravel framework
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vmorozov/laravel-log-traces.svg?style=flat-square)](https://packagist.org/packages/vmorozov/laravel-log-traces)
 [![Tests](https://img.shields.io/github/actions/workflow/status/freezer278/laravel-log-traces/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/freezer278/laravel-log-traces/actions/workflows/run-tests.yml)
