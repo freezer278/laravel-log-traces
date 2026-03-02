@@ -1,6 +1,6 @@
 {
     "name": "vmorozov/laravel-log-traces",
-    "description": "Library for providing trace ids in logs.",
+    "description": "Laravel library for providing trace ids in logs.",
     "type": "library",
     "keywords": [
         "vmorozov",
