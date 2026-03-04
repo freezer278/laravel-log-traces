@@ -4,6 +4,8 @@ namespace VMorozov\LaravelLogTraces\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use VMorozov\LaravelLogTraces\LogTracesServiceProvider;
 use VMorozov\LaravelLogTraces\Tracing\TraceStorage;
 
 class ContinueTraceMiddleware
@@ -30,7 +32,31 @@ class ContinueTraceMiddleware
             $this->traceStorage->setTraceId($traceId);
         }
 
-        return $next($request);
+        if ($this->requestsLogEnabled()) {
+            Log::log(
+                $this->requestsLogLevel(),
+                'Request started',
+                [
+                    'method' => $request->method(),
+                    'url' => $request->fullUrl(),
+                ],
+            );
+        }
+
+        $response = $next($request);
+
+        if ($this->requestsLogEnabled()) {
+            Log::log(
+                $this->requestsLogLevel(),
+                'Request ended',
+                [
+                    'method' => $request->method(),
+                    'url' => $request->fullUrl(),
+                ],
+            );
+        }
+
+        return $response;
     }
 
     /**
@@ -67,5 +93,15 @@ class ContinueTraceMiddleware
         }
 
         return $traceId;
+    }
+
+    private function requestsLogEnabled(): bool
+    {
+        return config(LogTracesServiceProvider::CONFIG_KEY . '.requests.enabled', true);
+    }
+
+    private function requestsLogLevel(): string
+    {
+        return config(LogTracesServiceProvider::CONFIG_KEY . '.requests.log_level', 'debug');
     }
 }
