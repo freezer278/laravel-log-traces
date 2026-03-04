@@ -2,9 +2,13 @@
 
 namespace VMorozov\LaravelLogTraces;
 
+use Illuminate\Console\Events\CommandFinished;
+use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Log\Context\Repository;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use VMorozov\LaravelLogTraces\Middleware\ContinueTraceMiddleware;
@@ -27,10 +31,39 @@ class LogTracesServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->initTracing();
+        $this->registerConsoleEventListeners();
     }
 
     public function packageBooted()
     {
+
+    }
+
+    private function registerConsoleEventListeners(): void
+    {
+        Event::listen(CommandStarting::class, function (CommandStarting $event) {
+            if ($this->consoleCommandsLogEnabled()) {
+                Log::log(
+                    $this->consoleCommandsLogLevel(),
+                    'Command started',
+                    [
+                        'signature' => $event->command,
+                    ],
+                );
+            }
+        });
+
+        Event::listen(CommandFinished::class, function (CommandFinished $event) {
+            if ($this->consoleCommandsLogEnabled()) {
+                Log::log(
+                    $this->consoleCommandsLogLevel(),
+                    'Command ended',
+                    [
+                        'signature' => $event->command,
+                    ],
+                );
+            }
+        });
     }
 
     private function initTracing(): void
@@ -48,5 +81,15 @@ class LogTracesServiceProvider extends PackageServiceProvider
             $traceStorage = $this->app->make(TraceStorage::class);
             $traceStorage->startNewSpan();
         });
+    }
+
+    private function consoleCommandsLogEnabled(): bool
+    {
+        return config(self::CONFIG_KEY . '.commands.enabled', true);
+    }
+
+    private function consoleCommandsLogLevel(): string
+    {
+        return config(self::CONFIG_KEY . '.commands.log_level', 'debug');
     }
 }
