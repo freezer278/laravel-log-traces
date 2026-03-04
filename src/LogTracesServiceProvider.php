@@ -7,9 +7,9 @@ use Illuminate\Log\Context\Repository;
 use Illuminate\Support\Facades\Context;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Vmorozov\LaravelLogTraces\Middleware\ContinueTraceMiddleware;
-use Vmorozov\LaravelLogTraces\Tracing\RandomIdGenerator;
-use Vmorozov\LaravelLogTraces\Tracing\TraceStorage;
+use VMorozov\LaravelLogTraces\Middleware\ContinueTraceMiddleware;
+use VMorozov\LaravelLogTraces\Tracing\RandomIdGenerator;
+use VMorozov\LaravelLogTraces\Tracing\TraceStorage;
 
 class LogTracesServiceProvider extends PackageServiceProvider
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Vmorozov\LaravelLogTraces\Middleware;
+namespace VMorozov\LaravelLogTraces\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Vmorozov\LaravelLogTraces\Tracing\TraceStorage;
+use VMorozov\LaravelLogTraces\Tracing\TraceStorage;
 
 class ContinueTraceMiddleware
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vmorozov\LaravelLogTraces\Tracing;
+namespace VMorozov\LaravelLogTraces\Tracing;
 
 use Illuminate\Support\Facades\Context;
 
