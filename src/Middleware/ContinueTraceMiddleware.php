@@ -11,10 +11,13 @@ use VMorozov\LaravelLogTraces\Tracing\TraceStorage;
 class ContinueTraceMiddleware
 {
     private TraceStorage $traceStorage;
+    private bool $requestsLogEnabledInConfig;
 
     public function __construct(TraceStorage $traceIdStorage)
     {
         $this->traceStorage = $traceIdStorage;
+
+        $this->requestsLogEnabledInConfig = config(LogTracesServiceProvider::CONFIG_KEY . '.requests.enabled', true);
     }
 
     /**
@@ -32,9 +35,12 @@ class ContinueTraceMiddleware
             $this->traceStorage->setTraceId($traceId);
         }
 
-        if ($this->requestsLogEnabled()) {
+        $requestsLogEnabled = $this->requestsLogEnabled($request);
+        $requestsLogLevel = $this->requestsLogLevel();
+
+        if ($requestsLogEnabled) {
             Log::log(
-                $this->requestsLogLevel(),
+                $requestsLogLevel,
                 'Request started',
                 [
                     'method' => $request->method(),
@@ -45,9 +51,9 @@ class ContinueTraceMiddleware
 
         $response = $next($request);
 
-        if ($this->requestsLogEnabled()) {
+        if ($requestsLogEnabled) {
             Log::log(
-                $this->requestsLogLevel(),
+                $requestsLogLevel,
                 'Request ended',
                 [
                     'method' => $request->method(),
@@ -95,9 +101,17 @@ class ContinueTraceMiddleware
         return $traceId;
     }
 
-    private function requestsLogEnabled(): bool
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function requestsLogEnabled($request): bool
     {
-        return config(LogTracesServiceProvider::CONFIG_KEY . '.requests.enabled', true);
+        if (!$this->requestsLogEnabledInConfig) {
+            return false;
+        }
+
+        return !in_array($request->path(), config(LogTracesServiceProvider::CONFIG_KEY . '.requests.skip_paths', []));
     }
 
     private function requestsLogLevel(): string
