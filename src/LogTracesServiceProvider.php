@@ -42,7 +42,7 @@ class LogTracesServiceProvider extends PackageServiceProvider
     private function registerConsoleEventListeners(): void
     {
         Event::listen(CommandStarting::class, function (CommandStarting $event) {
-            if ($this->consoleCommandsLogEnabled()) {
+            if ($this->shouldLogCommand($event->command)) {
                 Log::log(
                     $this->consoleCommandsLogLevel(),
                     'Command started',
@@ -54,7 +54,7 @@ class LogTracesServiceProvider extends PackageServiceProvider
         });
 
         Event::listen(CommandFinished::class, function (CommandFinished $event) {
-            if ($this->consoleCommandsLogEnabled()) {
+            if ($this->shouldLogCommand($event->command)) {
                 Log::log(
                     $this->consoleCommandsLogLevel(),
                     'Command ended',
@@ -81,6 +81,21 @@ class LogTracesServiceProvider extends PackageServiceProvider
             $traceStorage = $this->app->make(TraceStorage::class);
             $traceStorage->startNewSpan();
         });
+    }
+
+    private function shouldLogCommand(?string $command): bool
+    {
+        if (!$this->consoleCommandsLogEnabled()) {
+            return false;
+        }
+
+        if (!$command) {
+            return true;
+        }
+
+        $skipCommands = config(self::CONFIG_KEY . '.commands.skip_commands', []);
+
+        return !in_array($command, $skipCommands);
     }
 
     private function consoleCommandsLogEnabled(): bool

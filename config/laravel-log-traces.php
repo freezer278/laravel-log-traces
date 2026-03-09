@@ -11,5 +11,8 @@ return [
     'commands' => [
         'enabled' => true,
         'log_level' => 'debug',
+        'skip_commands' => [
+            'schedule:run',
+        ],
     ],
 ];
