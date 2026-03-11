@@ -13,6 +13,9 @@ return [
         'log_level' => 'debug',
         'skip_commands' => [
             'schedule:run',
+            'queue:work',
+            'queue:listen',
+            'horizon',
         ],
     ],
 ];
